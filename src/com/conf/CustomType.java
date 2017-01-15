@@ -1,5 +1,6 @@
 package com.conf;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,18 +17,19 @@ public class CustomType {
 
     private final String typeName;                            // 自定义类名
     private Class[] attrsClass;
+    private String[] attrsName;
     private Map<String, Integer> map = new HashMap<>(); // key 成元名字,在attrArray中的index
-    public CustomType(String TypeName, String[] attrsType, String[] attrsName) throws ClassNotFoundException {
-        if (attrsType.length != attrsName.length)
+    public CustomType(String TypeName, ArrayList<String> attrsType, ArrayList<String> attrsName) {
+        int num = attrsType.size();
+        if (num != attrsName.size())
             throw new AssertionError("attrsName.length must equal to attrsType.length");
-
         this.typeName = TypeName;
-        this.attrsClass = new Class[attrsType.length];
-        for (int i = 0; i < attrsType.length; i++) {
-            switch (attrsType[i]) {
+        this.attrsClass = new Class[num];
+        this.attrsName = new String[num];
+        for (int i = 0; i < num; i++) {
+            switch (attrsType.get(i)) {
                 case INT_STR:
                     attrsClass[i] = int.class;
-                    map.put(attrsName[i], i);
                     break;
                 case DOUBLE_STR:
                     attrsClass[i] = double.class;
@@ -39,11 +41,29 @@ public class CustomType {
                     attrsClass[i] = boolean.class;
                     break;
             }
-            map.put(attrsName[i], i);
+            this.attrsName[i] = attrsName.get(i);
+            this.map.put(attrsName.get(i), i);
         }
     }
     public Class getAttrClass(String att) {
         int index = map.get(att);
         return attrsClass[index];
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append("struct ");
+        sBuilder.append(typeName);
+        sBuilder.append("{\n");
+        for (int i = 0; i < this.attrsName.length; i++) {
+            sBuilder.append("\t");
+            sBuilder.append(attrsClass[i]);
+            sBuilder.append("\t");
+            sBuilder.append(attrsName[i]);
+            sBuilder.append("\n");
+        }
+        sBuilder.append("}\n");
+        return sBuilder.toString();
     }
 }

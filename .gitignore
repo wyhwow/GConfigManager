@@ -13,3 +13,9 @@ hs_err_pid*
 /*.iml
 /.idea
 lib/
+/src/com/conf/TypeDefLexer.java
+/src/com/conf/TypeDefListener.java
+/src/com/conf/TypeDef.tokens
+/src/com/conf/TypeDefParser.java
+/src/com/conf/TypeDefLexer.tokens
+/src/com/conf/TypeDefBaseListener.java

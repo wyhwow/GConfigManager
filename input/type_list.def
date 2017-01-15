@@ -1,0 +1,13 @@
+type IDCount {
+    int id
+    int count
+}
+
+type Attr {
+    int key
+    double value
+}
+
+type Attr2 {
+
+}
