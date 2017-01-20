@@ -20,7 +20,7 @@ RB:'}';
 
 TYPE:'type';
 
-ID:[a-zA-X_][a-zA-X0-9_]+;
+ID:[a-zA-X_][a-zA-X0-9_]*;
 
 WS : [ \t\r\n]+ -> skip ;
 
