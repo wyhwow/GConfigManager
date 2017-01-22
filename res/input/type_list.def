@@ -11,8 +11,3 @@ type Attr {
 type Attr2 {
 
 }
-
-type Attr {
-    double v
-    int k
-}
