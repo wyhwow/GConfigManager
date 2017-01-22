@@ -1,5 +1,7 @@
 package com.conf;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * 约束条件
  * Created by chenmj on 2017/1/15.
@@ -162,20 +164,23 @@ public class TabHead<T> {
             return this;
         }
         public TabHead<T> build() {
-            if (this.keyType == KeyType.KEY || this.keyType == KeyType.KEY1 || this.keyType == KeyType.KEY2
-                    || this.keyType == KeyType.KEY3  || this.keyType == KeyType.KEY4 || this.keyType == KeyType.INDEX) {
+            if (ArrayUtils.contains(KEY_TYPE_LS, this.keyType) || this.keyType == KeyType.INDEX) {
                 if (this.dataClass == CustomType.class)
                     throw new IllegalArgumentException("key/index can only be basic types!");
             }
             if (this.dataClass == double.class && (this.keyType != KeyType.KEY || !this.binarySearchInterval)) {
-                throw new IllegalArgumentException("double is only support key(not key1~key4) with binarySearchInterval!");
+                throw new IllegalArgumentException("double is only support key with binarySearchInterval!");
             }
-            if (this.keyType == KeyType.KEY_ALIAS && this.dataClass != String.class) {
+            if (ArrayUtils.contains(KEY_ALIAS_TYPE_LS, this.keyType) && this.dataClass != String.class) {
                 throw new IllegalArgumentException("key_alias's type must be string");
             }
             return new TabHead<>(this);
         }
     }
+    private static final KeyType[] KEY_TYPE_LS =  new KeyType[]{KeyType.KEY, KeyType.KEY1,
+            KeyType.KEY2, KeyType.KEY3, KeyType.KEY4};
+    private static final KeyType[] KEY_ALIAS_TYPE_LS =  new KeyType[]{KeyType.KEY_ALIAS, KeyType.KEY_ALIAS1,
+            KeyType.KEY_ALIAS2, KeyType.KEY_ALIAS3, KeyType.KEY_ALIAS4};
 
     public static class Range<T> {
         private boolean eqMin = false;
