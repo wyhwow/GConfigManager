@@ -25,8 +25,7 @@ public class TabHead<T> {
     private final boolean uniq;
     private final String dependSheet;
     private final Range <T> range;
-    private final boolean extendInterval;
-    private final boolean binarySearchInterval;
+    private final boolean interval;
     // 默认行为
     private final DefaultAction def_action;
     private Object defaultValue;
@@ -44,8 +43,7 @@ public class TabHead<T> {
         this.uniq = builder.uniq;
         this.dependSheet = builder.dependSheet;
         this.range = builder.range;
-        this.extendInterval = builder.extendInterval;
-        this.binarySearchInterval = builder.extendInterval;
+        this.interval = builder.interval;
         this.def_action = builder.def_action;
         this.defaultValue = builder.defaultValue;
     }
@@ -62,8 +60,7 @@ public class TabHead<T> {
         private boolean uniq = false;
         private String dependSheet = null;
         private Range<T> range = null;
-        private boolean extendInterval = false;
-        private boolean binarySearchInterval = false;
+        private boolean interval = false;
         private DefaultAction def_action = DefaultAction.MUST_EXIST;
         private Object defaultValue = null;
 
@@ -118,24 +115,11 @@ public class TabHead<T> {
             this.range = new Range<>(min, max, eqMin, eqMax);
             return this;
         }
-        public Builder extendInterval() {
-            if (this.dataClass != int.class) {
-                throw new IllegalArgumentException("Only int support extendInterval");
-            }
-            if (this.binarySearchInterval) {
-                throw new IllegalArgumentException("binarySearchInterval is conflict with extendInterval!");
-            }
-            this.extendInterval = true;
-            return this;
-        }
-        public Builder binarySearchInterval() {
+        public Builder interval() {
             if (this.dataClass != int.class && this.dataClass != double.class) {
-                throw new IllegalArgumentException("Only int and double support binarySearchInterval");
+                throw new IllegalArgumentException("Only int and double support interval");
             }
-            if (this.extendInterval) {
-                throw new IllegalArgumentException("binarySearchInterval is conflict with extendInterval!");
-            }
-            this.binarySearchInterval = true;
+            this.interval = true;
             return this;
         }
         public Builder nullable() {
@@ -168,8 +152,8 @@ public class TabHead<T> {
                 if (this.dataClass == CustomType.class)
                     throw new IllegalArgumentException("key/index can only be basic types!");
             }
-            if (this.dataClass == double.class && (this.keyType != KeyType.KEY || !this.binarySearchInterval)) {
-                throw new IllegalArgumentException("double is only support key with binarySearchInterval!");
+            if (this.dataClass == double.class && ArrayUtils.contains(KEY_TYPE_LS, this.keyType) && !this.interval) {
+                throw new IllegalArgumentException("the double key type must has interval option!");
             }
             if (ArrayUtils.contains(KEY_ALIAS_TYPE_LS, this.keyType) && this.dataClass != String.class) {
                 throw new IllegalArgumentException("key_alias's type must be string");
