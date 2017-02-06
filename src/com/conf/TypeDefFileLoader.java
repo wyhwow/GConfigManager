@@ -13,10 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * Created by chenmj on 2017/1/16.
- */
 public class TypeDefFileLoader {
     private static HashMap<String, CustomType> customTypeMap = new HashMap<>();
 

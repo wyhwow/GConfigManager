@@ -2,10 +2,6 @@ package com.conf;
 
 import org.apache.commons.cli.*;
 
-/**
- *
- * Created by chenmj on 2017/1/15.
- */
 public class CmdMain {
     private static final String USAGE = "CmdMain";
     private static final String OPT_File = "f";

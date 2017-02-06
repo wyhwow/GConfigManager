@@ -1,8 +1,5 @@
 package com.conf;
 
-/**
- * Created by chenmj on 2017/1/15.
- */
 public enum KeyType {
     NOT_KEY,
     KEY,
